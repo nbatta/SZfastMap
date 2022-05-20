@@ -4,7 +4,7 @@ import numpy as np
 class cosmology:
     '''Cosmology'''
 
-    def __init__(self, omegab=0.049, omegac=0.261, h=0.68, ns=0.965, sigma8=0.81, **kwargs):
+    def __init__(self, omegab=0.049, omegac=0.261, h=0.68, ns=0.965, sigma8=0.81, As=2e-9, **kwargs):
 
         self.omegab = omegab
         self.omegac = omegac
@@ -12,9 +12,10 @@ class cosmology:
         self.h      = h
         self.ns     = ns
         self.sigma8 = sigma8
+        self.As     = As 
 
-        self.c = 3e5
-        self.H0 = 100 * self.h
+        self.c      = 3e5
+        self.H0     = 100 * self.h
 
         c  = self.c
         H0 = self.H0
