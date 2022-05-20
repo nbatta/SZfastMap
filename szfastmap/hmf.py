@@ -71,7 +71,7 @@ class hmf:
             for zv in z:
                 print(" z: ","{:4.2f}".format(zv),
                   end="\r", flush=True)
-                m_t,dndm_t, f = dndmofm_tinker(mmin,mmax,zv) # M, dndM in Msun, 1/Mpc^3/Msun
+                m_t,dndm_t, f = self.dndmofm_tinker(mmin,mmax,zv) # M, dndM in Msun, 1/Mpc^3/Msun
                 dndmofmz[iz,:] = np.log10(f(m))
                 iz += 1
             np.savez('dndmtab.npz',m=m,z=z,dndmofmz=dndmofmz)
@@ -119,10 +119,10 @@ class hmf:
 
         for i in range(sigma.shape[0]):
 
-            radius = mass_to_radius(M[i])
+            radius = self.mass_to_radius(M[i])
 
             x = self.k * radius
-            y = self.pk * (self.k * windowfunction(x))**2
+            y = self.pk * (self.k * self.windowfunction(x))**2
 
             sigma[i] = np.sqrt(Anorm * sp.integrate.simps(y, self.k, even="avg"))
 
@@ -212,15 +212,15 @@ class hmf:
         n    = int((np.log10(Mmax)-np.log10(Mmin))/dlog)
         M    = np.logspace(np.log10(Mmin),np.log10(Mmax),n)
 
-        sigma  = M_to_sigma(self.k, self.pk, M)
-        D      = growth_factor(redshift)
+        sigma  = self.M_to_sigma(self.k, self.pk, M)
+        D      = self.growth_factor(redshift)
         sigma *= D
 
-        fsigma = tinker_func(sigma, redshift)
+        fsigma = self.tinker_func(sigma, redshift)
 
-        dlnsigmainv = dlnsigmainv_dM(M, sigma)
+        dlnsigmainv = self.dlnsigmainv_dM(M, sigma)
 
-        dndm = tinker_func(sigma, redshift) * self.rho_mean / M * dlnsigmainv
+        dndm = self.tinker_func(sigma, redshift) * self.rho_mean / M * dlnsigmainv
 
         dndmofm = interp1d(M,dndm,fill_value='extrapolate')
 
