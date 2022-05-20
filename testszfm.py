@@ -3,4 +3,4 @@ import numpy as np
 
 cosmo = szfm.cosmology.cosmology()
 
-hmf = hs.hmf.hmf(cosmo)
+hmf = szfm.hmf.hmf(cosmo)
