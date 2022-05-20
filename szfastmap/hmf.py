@@ -88,7 +88,7 @@ class hmf:
 
         self.dndmofmz = dndmofmzfunc
 
-    def mass_to_radius(m):
+    def mass_to_radius(self, m):
         """
         Returns the radius of a sphere of uniform denstiy rho and mass m
         """
@@ -96,7 +96,7 @@ class hmf:
         
         return r
 
-    def windowfunction(x):
+    def windowfunction(self, x):
         """
         Computes the window function in Fourier space (top hat in real space).
         """
@@ -104,7 +104,7 @@ class hmf:
 
         return W
 
-    def M_to_sigma(k, pk, M):
+    def M_to_sigma(self, k, pk, M):
         """
         Returns mass and sigma(mass)
         """
@@ -128,7 +128,7 @@ class hmf:
 
         return sigma
 
-    def dlnsigmainv_dM(M, sigma):
+    def dlnsigmainv_dM(self, M, sigma):
         lnsigmainv = np.log(1/sigma)
 
         diff_sig = np.diff(lnsigmainv)
@@ -141,14 +141,14 @@ class hmf:
 
         return f(M)
 
-    def growth_factor(z):
+    def growth_factor(self, z):
         """
         Returns growth factor using fitting formulae from Carrol, Press & Turner (1992)
         """
         # returns growth factor using fitting formulae from Carrol, Press & Turner (1992)
 
         omegaM = self.omegam
-        omegaL = self.omegal
+        omegaL = self.omegal 
 
         w = -1.
         x = 1.+z
@@ -169,7 +169,7 @@ class hmf:
 
         return D
 
-    def tinker_func(x, z):
+    def tinker_func(self, x, z):
         """
         Uses fitting coefficients from Table 2 of Tinker et al. (2008) for Delta = 200 and
         redshift evolution equations 5 through 8.
@@ -201,7 +201,7 @@ class hmf:
 
         return f
 
-    def dndmofm_tinker(Mmin, Mmax, redshift):
+    def dndmofm_tinker(self, Mmin, Mmax, redshift):
         """
         Returns dn/dm for Tinker et al. (2008) mass function using Eqs. (3, 5-8) of their paper.
         Assumes k, pk, omegam, omegal, h, and rho_mean have been defined already
