@@ -36,11 +36,11 @@ class hmf:
         self.h      = cosmo.h
         self.omegab = cosmo.omegab
         self.omegam = cosmo.omegam
-        self.As = cosmo.As
+        self.As     = cosmo.As
         self.ns     = cosmo.ns
         self.omegal = 1-self.omegam
 
-        self.rho_mean    = 2.775e11 * self.omegam * h**2
+        self.rho_mean    = 2.775e11 * self.omegam * self.h**2
 
         if not path.exists('dndmtab.npz') or newt:
 
