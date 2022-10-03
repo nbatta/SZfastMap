@@ -4,10 +4,10 @@ import numpy as np
 class cosmology:
     '''Cosmology'''
 
-    def __init__(self, omegab=0.049, omegac=0.261, h=0.68, ns=0.965, sigma8=0.81, As=2e-9, **kwargs):
+    def __init__(self, Omega_b=0.049, Omega_c=0.261, h=0.68, ns=0.965, sigma8=0.81, As=2e-9, **kwargs):
 
-        self.omegab = omegab
-        self.omegac = omegac
+        self.omegab = Omega_b
+        self.omegac = Omega_c
         self.omegam = self.omegab + self.omegac
         self.h      = h
         self.ns     = ns

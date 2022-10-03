@@ -4,6 +4,7 @@ from scipy.optimize import root_scalar
 from scipy.interpolate import interp1d
 from . import cosmology as co
 import matplotlib.pyplot as plt
+from pixell import utils
 
 def fsky2fov_root(fov,fsky):
     return fsky - fov/4/np.pi*(np.cos((np.pi-fov)/2)-np.cos((np.pi+fov)/2))
