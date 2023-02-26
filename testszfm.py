@@ -14,7 +14,7 @@ geometry = inputdir + 'my_geometry.fits'
 beam = inputdir + "cmb_daynight_tot_f150_coadd/beam.txt"
 freq = 150 * 1e9
 
-ofile = "Test_ymap1.fits"
+ofile = "Test_ymap3.fits"
 
 start = time.time()
 
@@ -24,7 +24,7 @@ Cosmo4enlib = {'Omega_m':cosmo.omegam,'h':cosmo.h,'Omega_b':cosmo.omegab}
 
 hmf = szfm.hmf.hmf(cosmo)
 
-lc = szfm.lightcone.lightcone(cosmo=cosmo,fsky=0.02,Mmin=2e14)
+lc = szfm.lightcone.lightcone(cosmo=cosmo,fsky=0.01,Mmin=2e14)
 
 lc.populate(hmf.dndmofmz)
 
