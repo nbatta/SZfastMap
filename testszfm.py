@@ -9,22 +9,23 @@ dtype   = np.float32
 inputdir = "/Users/nab/Desktop/desktop_stuff/ysims/input/"
 #mapfile = inputdir + "cmb_daynight_tot_f150_coadd.zip" #"fullsky_actbeam_f150.zip"
 #mapfile = inputdir + "fullsky_actbeam_f090.zip"
-geometry = inputdir + 'my_geometry.fits'
+geometry = inputdir + 'my_geometry2.fits'
 
 beam = inputdir + "cmb_daynight_tot_f150_coadd/beam.txt"
 freq = 150 * 1e9
 
-ofile = "Test_ymap3.fits"
+ofile = "astropartest12.fits"
 
 start = time.time()
 
-cosmo = szfm.cosmology.cosmology()
+cosmo = szfm.cosmology.cosmology(Omega_c=0.27,As=2e-9)
 
 Cosmo4enlib = {'Omega_m':cosmo.omegam,'h':cosmo.h,'Omega_b':cosmo.omegab}
+Astro4enlib = {'beta':1., 'P0':1.}
 
-hmf = szfm.hmf.hmf(cosmo)
+hmf = szfm.hmf.hmf(cosmo,newtable=True)
 
-lc = szfm.lightcone.lightcone(cosmo=cosmo,fsky=0.01,Mmin=2e14)
+lc = szfm.lightcone.lightcone(cosmo=cosmo,fsky=0.039,Mmin=4e14)
 
 lc.populate(hmf.dndmofmz)
 
@@ -40,7 +41,7 @@ vmin    = 0.001
 print ("nhalo start",time.time() - start)
 nhalo   = clusters.websky_pkcs_nhalo(catfile)
 print ("nhalo = ",nhalo)
-prof_builder= clusters.ProfileBattagliaFast(cosmology=Cosmo4enlib, beta_range=beta_range)
+prof_builder= clusters.ProfileBattagliaFast(cosmology=Cosmo4enlib, astropars=Astro4enlib, beta_range=beta_range)
 mass_interp = clusters.MdeltaTranslator(Cosmo4enlib)
 print ("websky read",time.time() - start)
 data  = clusters.websky_pkcs_read(catfile)
