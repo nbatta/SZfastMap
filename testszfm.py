@@ -6,7 +6,7 @@ import time
 
 dtype   = np.float32
 
-inputdir = "/Users/nab/Desktop/desktop_stuff/ysims/input/"
+inputdir = "./input/"
 #mapfile = inputdir + "cmb_daynight_tot_f150_coadd.zip" #"fullsky_actbeam_f150.zip"
 #mapfile = inputdir + "fullsky_actbeam_f090.zip"
 geometry = inputdir + 'my_geometry2.fits'
@@ -14,7 +14,7 @@ geometry = inputdir + 'my_geometry2.fits'
 beam = inputdir + "cmb_daynight_tot_f150_coadd/beam.txt"
 freq = 150 * 1e9
 
-ofile = "astropartest12.fits"
+ofile = "output/astropartest12.fits"
 
 start = time.time()
 
