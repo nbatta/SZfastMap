@@ -5,7 +5,9 @@ from enlib import clusters, mapdata
 import time
 from scipy import ndimage
 
-version = "v2"
+version = "v3"
+scales  = 2
+scaletag = ["","_2scl"]
 
 dtype   = np.float32
 
@@ -109,4 +111,9 @@ imap = enmap.read_map(ofile)
 h1, be1 = np.histogram(np.log10(-1*imap[0]),bins=nbins,range = [ylolim,yhilim])
 b1 = (be1[:-1] + be1[1:])/2.
 
-np.savez("output/simobspdf"+version+"_"+str(nbins)+".npz",b1,h1)
+if (scales >= 2):
+        zmap = ndimage.zoom(imap[0],1./4.)
+        h2, be2 = np.histogram(np.log10(-1*zmap),bins=nbins,range = [ylolim,yhilim])
+        h1 = np.append(h1,h2)
+
+np.savez("output/simobspdf"+version+"_"+str(nbins)+scaletag[scales-1]+".npz",b1,h1)
