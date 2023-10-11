@@ -5,16 +5,20 @@ import szfastmap as szfm
 from pixell import enplot, enmap
 from scipy import ndimage
 
-version = '3D'
+np.seterr(divide = 'ignore') 
+
+version = '3d'
 
 indir = "./output/"
 
-nbins = 25
-
-savepdfs = []
-
 Nsamps = 400
 reals = 10
+
+nbins = 50
+ylolim = -1.
+yhilim = 3.
+
+savepdfs = []
 
 for j in range(Nsamps):
     avgh = 0.
@@ -22,13 +26,14 @@ for j in range(Nsamps):
     for i in range (reals):
         f = indir + "ymap"+version+"_par"+str(j)+"_r"+str(i)+".fits"
         imap = enmap.read_map(f)
-        h1, be1 = np.histogram(np.log10(-1*imap[0]),bins=nbins,range = [-2.5,2.5])
+        h1, be1 = np.histogram(np.log10(-1*imap[0]),bins=nbins,range = [ylolim,yhilim])
         avgh += h1
         imap = 0
 
+    print(j)
     b1 = (be1[:-1] + be1[1:])/2.
     avgh /= nbins
     savepdfs = np.append(savepdfs,avgh)
     
 savebins = b1
-np.savez(indir+"avgpdfs"+version+".npz",savebins,savepdfs)
+np.savez(indir+"avgpdfs"+version+"_"+str(nbins)+".npz",savebins,savepdfs)
