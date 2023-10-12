@@ -116,4 +116,6 @@ if (scales >= 2):
         h2, be2 = np.histogram(np.log10(-1*zmap),bins=nbins,range = [ylolim,yhilim])
         h1 = np.append(h1,h2)
 
+print (np.shape(h1))
+        
 np.savez("output/simobspdf"+version+"_"+str(nbins)+scaletag[scales-1]+".npz",b1,h1)
