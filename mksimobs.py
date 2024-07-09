@@ -5,7 +5,7 @@ from enlib import clusters, mapdata
 import time
 from scipy import ndimage
 
-version = "v3"
+version = "v4"
 scales  = 2
 scaletag = ["","_2scl"]
 

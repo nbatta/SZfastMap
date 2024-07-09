@@ -16,20 +16,25 @@ outputdir = "./output/"
 beam = inputdir + "cmb_daynight_tot_f150_coadd/beam.txt"
 freq = 150 * 1e9
 
-Nsamps = 400
+Nsamps = 1000
 
-sampler = qmc.LatinHypercube(d=3)
+sampler = qmc.LatinHypercube(d=2)
 sample = sampler.random(n=Nsamps)
 
-l_bounds = [0.26, 1.5e-9, 0.5]
-u_bounds = [0.28, 2.5e-9, 1.5]
+l_bounds = [0.26, 1.5e-9]
+u_bounds = [0.28, 2.5e-9]
+
+#l_bounds = [0.26, 1.5e-9, 0.8]
+#u_bounds = [0.28, 2.5e-9, 1.2]
 
 # l_bounds = [0.26, 1.5e-9,0.8,0.5]
 # u_bounds = [0.28, 2.5e-9,1.2,1.5]
 
 sample_scaled = qmc.scale(sample, l_bounds, u_bounds)
+np.savez(outputdir + "params_2dv3.npz", sample_scaled)
 
-np.savez(outputdir + "params_3d.npz", sample_scaled)
+#temp = np.load(outputdir + "params_3dbv2.npz")
+#sample_scaled = temp['arr_0']
 
 # print (np.shape(sample_scaled))
 # print (sample_scaled[0,:])
@@ -51,9 +56,9 @@ for j in range(Nsamps):
         Omega_c=sample_scaled[j, 0], As=sample_scaled[j, 1])
     Cosmo4enlib = {'Omega_m': cosmo_fid.omegam,
                    'h': cosmo_fid.h, 'Omega_b': cosmo_fid.omegab}
-    Astro4enlib = {'beta': 1., 'P0': sample_scaled[j, 2]}
+    Astro4enlib = {'beta': 1., 'P0':1.} #sample_scaled[j, 2]}
     for i in range(10):
-        ofile = outputdir + "ymap3d_par"+str(j)+"_r"+str(i)+".fits"
+        ofile = outputdir + "ymap2dv3_par"+str(j)+"_r"+str(i)+".fits"
         shape, wcs = enmap.read_map_geometry(geometry)
         omap = enmap.zeros(shape[-2:], wcs, dtype)
         print(ofile)

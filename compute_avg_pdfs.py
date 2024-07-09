@@ -7,12 +7,12 @@ from scipy import ndimage
 
 np.seterr(divide = 'ignore') 
 
-version = '3d'
-scales  = 2
+version = '3dbv2'
+scales  = 1
 scaletag = ["","_2scl"]
 indir = "./output/"
 
-Nsamps = 400
+Nsamps = 1000
 reals = 10
 
 nbins = 50

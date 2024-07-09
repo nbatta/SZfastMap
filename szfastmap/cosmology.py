@@ -23,7 +23,7 @@ class cosmology:
 
         nz = 100000
         z1 = 0.0
-        z2 = 6.0
+        z2 = 6.0 # z2 = 5.0
 
         za = np.linspace(z1,z2,nz)
         dz = za[1]-za[0]
