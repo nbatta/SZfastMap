@@ -44,7 +44,7 @@ for j in range(Nsamps):
 
     print(j)
     b1 = (be1[:-1] + be1[1:])/2.
-    avgh /= nbins
+    avgh /= reals
     savepdfs = np.append(savepdfs,avgh)
     
 savebins = b1

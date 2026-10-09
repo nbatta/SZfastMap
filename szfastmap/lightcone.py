@@ -116,7 +116,7 @@ class lightcone:
             # total number of halos in shell
             N = poisson(Nbar)
 
-            if(N==0): return
+            if(N==0): continue
 
             self.Nobj += N
 

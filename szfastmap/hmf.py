@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import scipy as sp
 
 from scipy.interpolate import interp1d
-from scipy.interpolate import interp2d
+from scipy.interpolate import RegularGridInterpolator
 from scipy.optimize import curve_fit
 import scipy.integrate
 
@@ -22,7 +22,7 @@ class hmf:
     def __init__(self, cosmo, **kwargs):
 
         self.mmin = kwargs.get('mmin',1e13)
-        self.mmax = kwargs.get('mmin',1e16)
+        self.mmax = kwargs.get('mmax',1e16)
         self.zmin = kwargs.get('zmin',0.0)
         self.zmax = kwargs.get('zmax',4.5)
         self.newt = kwargs.get('newtable',False)
@@ -35,6 +35,7 @@ class hmf:
 
         self.h      = cosmo.h
         self.omegab = cosmo.omegab
+        self.omegac = cosmo.omegac
         self.omegam = cosmo.omegam
         self.As     = cosmo.As
         self.ns     = cosmo.ns
@@ -57,7 +58,7 @@ class hmf:
             '''Initialize power spectrum'''
             kmax = 340.
             pars = camb.CAMBparams()
-            pars.set_cosmology(H0=self.h*100, ombh2=self.omegab*self.h**2, omch2=self.omegam*self.h**2)
+            pars.set_cosmology(H0=self.h*100, ombh2=self.omegab*self.h**2, omch2=self.omegac*self.h**2)
             pars.InitPower.set_params(ns=self.ns,As=self.As)
             pars.set_matter_power(redshifts=[0.], kmax=kmax)
             pars.NonLinear = model.NonLinear_none
@@ -83,8 +84,15 @@ class hmf:
             z = data['z']
             dndmofmz = data['dndmofmz']
 
-        dndmofmzfunc_log = interp2d(np.log10(m),z,dndmofmz)
-        dndmofmzfunc     = lambda m,z: 10**dndmofmzfunc_log(np.log10(m),z)
+        # linear interpolation in (z, log10 M); outside the table the edge value is used (as interp2d did)
+        logmtab = np.log10(m)
+        ztab    = z
+        dndmofmzfunc_log = RegularGridInterpolator((ztab,logmtab),dndmofmz)
+        def dndmofmzfunc(m,z):
+            zb, logmb = np.broadcast_arrays(z,np.log10(m))
+            zb    = np.clip(zb,ztab[0],ztab[-1])
+            logmb = np.clip(logmb,logmtab[0],logmtab[-1])
+            return 10**dndmofmzfunc_log(np.stack([zb,logmb],axis=-1))
 
         self.dndmofmz = dndmofmzfunc
 
